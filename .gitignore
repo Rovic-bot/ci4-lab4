@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+=======
+/vendor/
+/node_modules/
+/.env
+/writable/
+
+>>>>>>> bb3c44363baa41f06417afbaaaf866b6f91d431a
 #-------------------------
 # Operating Specific Junk Files
 #-------------------------
@@ -86,6 +94,10 @@ php_errors.log
 #-------------------------
 vendor/
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> bb3c44363baa41f06417afbaaaf866b6f91d431a
 #-------------------------
 # IDE / Development Files
 #-------------------------
