@@ -10,7 +10,19 @@ class Items extends BaseController
     public function index()
     {
         $model = new ItemModel();
-        $data['items'] = $model->findAll();
+
+        $keyword = $this->request->getGet('keyword');
+
+        if ($keyword) {
+            $data['items'] = $model
+                ->like('name', $keyword)
+                ->orLike('description', $keyword)
+                ->findAll();
+        } else {
+            $data['items'] = $model->findAll();
+        }
+
+        $data['keyword'] = $keyword;
 
         return view('items/index', $data);
     }
