@@ -9,7 +9,7 @@
 #-------------------------
 # Operating Specific Junk Files
 #-------------------------
-
+docker-compose.yml
 # OS X
 .DS_Store
 .AppleDouble
