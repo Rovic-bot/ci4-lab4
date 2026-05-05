@@ -32,7 +32,9 @@ class Items extends BaseController
 
     public function create()
     {
-        return view('items/create');
+        $data['title'] = 'Create Item';
+        $data['content'] = view('items/create');
+        return view('base_layout', $data);
     }
 
     public function store()
@@ -51,8 +53,10 @@ class Items extends BaseController
     {
         $model = new ItemModel();
         $data['item'] = $model->find($id);
+        $data['title'] = 'Edit Item';
+        $data['content'] = view('items/edit', $data);
 
-        return view('items/edit', $data);
+        return view('base_layout', $data);
     }
 
     public function update($id)

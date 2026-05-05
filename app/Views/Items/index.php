@@ -20,7 +20,7 @@
         </p>
     <?php endif; ?>
 
-    <a href="/items/create" class="btn btn-success mb-3">Add Item</a>
+    <a href="<?= base_url('items/create') ?>" class="btn btn-success mb-3">Add Item</a>
 
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
@@ -38,8 +38,8 @@
                 <td><?= $item['name'] ?></td>
                 <td><?= $item['description'] ?></td>
                 <td>
-                    <a href="/items/edit/<?= $item['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
-                    <a href="/items/delete/<?= $item['id'] ?>" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="<?= base_url('items/edit/' . $item['id']) ?>" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="<?= base_url('items/delete/' . $item['id']) ?>" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
             <?php endforeach; ?>
