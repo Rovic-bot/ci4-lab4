@@ -1,0 +1,50 @@
+services:
+  app:
+    image: php:8.3-apache
+    container_name: ci4_app
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    command: >
+      bash -c "
+        apt-get update &&
+        apt-get install -y libicu-dev libonig-dev zip unzip &&
+        docker-php-ext-install intl mbstring pdo pdo_mysql mysqli &&
+        sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf &&
+        sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/apache2.conf &&
+        echo '<Directory /var/www/html/public>' >> /etc/apache2/sites-available/000-default.conf &&
+        echo '    AllowOverride All' >> /etc/apache2/sites-available/000-default.conf &&
+        echo '    Require all granted' >> /etc/apache2/sites-available/000-default.conf &&
+        echo '</Directory>' >> /etc/apache2/sites-available/000-default.conf &&
+        a2enmod rewrite &&
+        apache2-foreground
+      "
+
+  db:
+    image: mysql:8.4
+    container_name: ci4_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ci4lab4
+      MYSQL_USER: ci4user
+      MYSQL_PASSWORD: ci4pass
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: ci4_phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: ci4user
+      PMA_PASSWORD: ci4pass
+
+volumes:
+  db_data:
