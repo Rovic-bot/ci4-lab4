@@ -12,30 +12,29 @@ class Items extends BaseController
     {
         $model = new ItemModel();
 
-        // Kunin ang search keyword mula sa URL (GET request)
         $keyword = $this->request->getGet('keyword');
 
-        // Logic para sa Search: Kung may keyword, i-filter ang records
         if ($keyword) {
             $model->like('name', $keyword)
                   ->orLike('description', $keyword);
         }
 
-        // Dito papasok ang Pagination:
-        // Imbes na findAll(), gagamit tayo ng paginate().
-        // Ginawa nating 5 records per page para makita mo agad yung epekto.
         $data = [
-            'items'   => $model->paginate(5), 
-            'pager'   => $model->pager, // Importante ito para sa links sa View
+            'items'   => $model->paginate(5),
+            'pager'   => $model->pager,
             'keyword' => $keyword,
         ];
 
-        return view('items/index', $data);
+        $data['title'] = 'Items';
+        $data['content'] = view('items/index', $data);
+        return view('base_layout', $data);
     }
 
     public function create()
     {
-        return view('items/create');
+        $data['title'] = 'Create Item';
+        $data['content'] = view('items/create');
+        return view('base_layout', $data);
     }
 
     public function store()
@@ -54,8 +53,10 @@ class Items extends BaseController
     {
         $model = new ItemModel();
         $data['item'] = $model->find($id);
+        $data['title'] = 'Edit Item';
+        $data['content'] = view('items/edit', $data);
 
-        return view('items/edit', $data);
+        return view('base_layout', $data);
     }
 
     public function update($id)
