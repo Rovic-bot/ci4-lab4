@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ItemModel;
@@ -11,18 +12,23 @@ class Items extends BaseController
     {
         $model = new ItemModel();
 
+        // Kunin ang search keyword mula sa URL (GET request)
         $keyword = $this->request->getGet('keyword');
 
+        // Logic para sa Search: Kung may keyword, i-filter ang records
         if ($keyword) {
-            $data['items'] = $model
-                ->like('name', $keyword)
-                ->orLike('description', $keyword)
-                ->findAll();
-        } else {
-            $data['items'] = $model->findAll();
+            $model->like('name', $keyword)
+                  ->orLike('description', $keyword);
         }
 
-        $data['keyword'] = $keyword;
+        // Dito papasok ang Pagination:
+        // Imbes na findAll(), gagamit tayo ng paginate().
+        // Ginawa nating 5 records per page para makita mo agad yung epekto.
+        $data = [
+            'items'   => $model->paginate(5), 
+            'pager'   => $model->pager, // Importante ito para sa links sa View
+            'keyword' => $keyword,
+        ];
 
         return view('items/index', $data);
     }

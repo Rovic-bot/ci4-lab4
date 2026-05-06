@@ -55,4 +55,7 @@
     <input type="text" name="name" placeholder="Name" required>
     <textarea name="description" placeholder="Description"></textarea>
     <button type="submit">Save</button>
-</form>
+</form>
+<div class="mt-3">
+    <?= $pager->links() ?>
+</div>
